@@ -9,3 +9,6 @@ vendor
 .DS_Store
 Thumbs.db
 *.swp
+
+# PhpCS
+.php-cs-fixer.cache
