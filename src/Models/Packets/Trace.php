@@ -9,9 +9,8 @@ class Trace implements Model
     private string $operation;
     private float $started_at;
 
-    private float $finished_at;
+    private float $finished_at = -1;
     private float $memory_usage;
-    private float $peak_memory_usage;
 
 
     /**
@@ -27,7 +26,6 @@ class Trace implements Model
         $this->operation = $operation;
         $this->started_at = microtime(true);
         $this->memory_usage = memory_get_usage(true);
-        $this->peak_memory_usage = memory_get_peak_usage(true);
     }
 
     /**
@@ -52,7 +50,7 @@ class Trace implements Model
      */
     public function attachChild(Trace $child): void
     {
-        $this->children[] = &$child;
+        $this->children[] = $child;
     }
 
     /**
@@ -74,7 +72,6 @@ class Trace implements Model
             'finished_at' => (int) $this->finished_at,
             'duration' => (int) $this->getDuration(),
             'memory_usage' => (int) $this->memory_usage,
-            'peak_memory_usage' => (int) $this->peak_memory_usage,
             // Recursively convert children to arrays (if any)
             'children' => array_map(fn ($child) => $child->toArray(), $this->children ?? []),
         ];

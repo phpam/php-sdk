@@ -40,10 +40,14 @@ class Hub
         $this->endpoint = $endpoint;
         $this->headers = $headers;
 
+        $trace = new Trace(
+            operation: 'hub.init',
+        );
+
+        $this->traces[] = $trace;
+
         $this->packet = new Packet(
-            trace: new \Phpam\Sdk\Models\Packets\Trace(
-                operation: 'request.start',
-            ),
+            trace: $trace,
             request: Request::generate()
         );
     }
@@ -107,7 +111,7 @@ class Hub
         $this->traces[] = $trace;
     }
 
-    public function finishChild()
+    public function finishChild(): void
     {
         $this->popTrace()?->finished();
     }
