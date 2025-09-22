@@ -9,7 +9,6 @@ use Phpam\Sdk\Models\Packets\Packet;
 use Phpam\Sdk\Models\Packets\Trace;
 use Phpam\Sdk\Transport\Transport;
 use Phpam\Sdk\Transport\Transporters;
-use Phpam\Sdk\Transporters as TransportersAlias;
 
 class Hub
 {
