@@ -2,7 +2,7 @@ vendor
 
 # Editor directories and files
 .vscode/
-#.idea/
+.idea/
 
 
 # MacOS files
