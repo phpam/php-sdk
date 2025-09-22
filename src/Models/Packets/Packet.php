@@ -6,7 +6,6 @@ use Phpam\Sdk\Models\Meta\Auth;
 use Phpam\Sdk\Models\Meta\Project;
 use Phpam\Sdk\Models\Meta\Request;
 use Phpam\Sdk\Models\Model;
-use Phpam\Sdk\Models\Packets\Exception;
 
 class Packet implements Model
 {

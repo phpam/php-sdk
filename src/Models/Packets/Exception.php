@@ -35,7 +35,7 @@ class Exception implements Model
     ): array {
         $lines = file($file);
 
-        if($lines === false) {
+        if ($lines === false) {
             return [];
         }
 
