@@ -6,11 +6,15 @@ use Phpam\Sdk\Models\Meta\Auth;
 use Phpam\Sdk\Models\Meta\Project;
 use Phpam\Sdk\Models\Meta\Request;
 use Phpam\Sdk\Models\Model;
+use Phpam\Sdk\Models\Packets\Exception;
 
 class Packet implements Model
 {
     public Trace $trace;
-    public ?Exception $exception = null;
+    /**
+     * @var Exception[] $exceptions An array of Exception objects
+     */
+    public array $exceptions = [];
     public ?Auth $auth;
     public ?Request $request = null;
     public ?Project $project = null;
@@ -26,27 +30,31 @@ class Packet implements Model
      * @param Request|null $request The request information (if any)
      * @param Auth|null $auth The authenticated user information (if any)
      * @param array<string,string> $tags Additional tags or metadata
-     * @param Exception|null $exception The exception information (if any)
      */
     public function __construct(
         Trace $trace,
-        ?Exception $exception = null,
         ?Auth $auth = null,
         ?Request $request = null,
         array $tags = []
     ) {
         $this->trace = $trace;
-        $this->exception = $exception;
         $this->auth = $auth;
         $this->request = $request;
         $this->tags = $tags;
+    }
+
+    public function addException(
+        Exception $exception
+    ): self {
+        $this->exceptions[] = $exception;
+        return $this;
     }
 
     public function toArray(): array
     {
         return [
             'trace' => $this->trace->toArray(),
-            'exception' => $this->exception?->toArray(),
+            'exception' => $this->exceptions ? array_map(fn ($e) => $e->toArray(), $this->exceptions) : null,
             'auth' => $this->auth?->toArray(),
             'request' => $this->request?->toArray(),
             'project' => $this->project?->toArray(),

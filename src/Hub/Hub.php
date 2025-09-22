@@ -135,12 +135,12 @@ class Hub
     }
 
     //@section Exceptions
-    public function throwException(
+    public function withException(
         \Throwable $throwable
     ): void {
-        $this->packet->exception = new \Phpam\Sdk\Models\Packets\Exception($throwable);
-        $this->packet->trace->finished();
-        $this->send();
+        $this->packet->addException(
+            new \Phpam\Sdk\Models\Packets\Exception($throwable)
+        );
     }
 
     //@section Sending
