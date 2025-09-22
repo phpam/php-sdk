@@ -1,0 +1,27 @@
+on:
+  push:
+
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        php: ['8.1', '8.2', '8.3']
+    runs-on: ubuntu-latest
+    name: "PHP ${{ matrix.php }} Test"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+      - nama: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          key: "${{ runner.os }}--${{ matrix.php }}composer-${{ hashFiles('composer.lock') }}"
+          path: 'vendor'
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
+      - name: Run static analysis
+        run: ./vendor/bin/phpstan analyse -c phpstan.neon --error-format=github
