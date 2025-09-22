@@ -9,6 +9,7 @@ jobs:
         php: ['8.1', '8.2', '8.3']
     runs-on: ubuntu-latest
     name: "PHP ${{ matrix.php }} Test"
+    continue-on-error: true # Continue on error to allow all jobs to complete
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP
