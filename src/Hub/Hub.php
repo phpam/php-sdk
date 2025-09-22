@@ -101,9 +101,15 @@ class Hub
      * @param Trace $trace
      * @return void
      */
-    public function addTrace(Trace $trace): void
+    public function attachChild(Trace $trace): void
     {
+        $this->getCurrentTrace()?->attachChild($trace);
         $this->traces[] = $trace;
+    }
+
+    public function finishChild()
+    {
+        $this->popTrace()?->finished();
     }
 
     /**
