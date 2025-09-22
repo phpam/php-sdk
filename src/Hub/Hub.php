@@ -9,6 +9,7 @@ use Phpam\Sdk\Models\Packets\Packet;
 use Phpam\Sdk\Models\Packets\Trace;
 use Phpam\Sdk\Transport\Transport;
 use Phpam\Sdk\Transport\Transporters;
+use Phpam\Sdk\Transporters as TransportersAlias;
 
 class Hub
 {
@@ -42,7 +43,7 @@ class Hub
 
         $this->packet = new Packet(
             trace: new \Phpam\Sdk\Models\Packets\Trace(
-                operation: "request.start",
+                operation: 'request.start',
             ),
             request: Request::generate()
         );

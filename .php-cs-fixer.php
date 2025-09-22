@@ -11,6 +11,8 @@ return (new \PhpCsFixer\Config())
         '@PSR12' => true,
         'array_syntax' => ['syntax' => 'short'],
         'no_unused_imports' => true,
+        'single_quote' => true,
+        'no_trailing_whitespace' => true,
     ])
     ->setFinder($finder)
     ->setRiskyAllowed(false)

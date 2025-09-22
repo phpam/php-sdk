@@ -1,0 +1,32 @@
+name: "Code style check"
+on:
+  push:
+  pull_request:
+
+jobs:
+    code-style:
+        runs-on: ubuntu-latest
+        name: "Code style check"
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.3'
+                  tools: composer:v2
+            - name: Cache Composer packages
+              uses: actions/cache@v3
+              with:
+                key: "${{ runner.os }}-cs-composer-${{ hashFiles('composer.lock') }}"
+                path: 'vendor'
+            - name: Install dependencies
+              run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
+            - name: Run code style check
+              continue-on-error: true # Continue on error to allow all jobs to complete
+              run: composer lint --quiet
+            - name: Commit back
+              uses: EndBug/add-and-commit@v9
+              with:
+                add: '.'
+                message: "chore: fix code style issues in commit ${{ github.sha }} [skip ci]"
+                push: 'true'
